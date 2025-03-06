@@ -10,9 +10,23 @@ pipeline{
         terraform 'terraform'
     }
     stages{
-        stage('clean Workspace'){
+        
+        stage('Initializing Terraform'){
             steps{
-                cleanWs()
+                script{
+                    dir('terraform'){
+                         sh 'terraform init'
+                    }
+                }
+            }
+        }
+        stage('Validating Terraform'){
+            steps{
+                script{
+                    dir('terraform'){
+                         sh 'terraform validate'
+                    }
+                }
             }
         }
         stage('checkout from Git'){
