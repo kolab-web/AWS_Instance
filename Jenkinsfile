@@ -31,7 +31,7 @@ pipeline{
         }
         stage('checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/Aj7Ay/TERRAFORM-JENKINS-CICD.git'
+                git branch: 'test', url: 'https://github.com/kolab-web/TERRAFORM-JENKINS-CICD'
             }
         }
         stage('Terraform version'){
