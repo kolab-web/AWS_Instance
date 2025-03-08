@@ -4,6 +4,7 @@ pipeline{
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = 'eu-west-2'
+        SCANNER_HOME = tool 'sonar-server'
     }
     tools{
         jdk 'jdk17'
@@ -39,21 +40,7 @@ pipeline{
                  sh 'terraform --version'
                 }
         }
-        // stage("Sonarqube Analysis "){
-        //     steps{
-        //         withSonarQubeEnv('sonar-server') {
-        //             sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
-        //             -Dsonar.projectKey=Terraform '''
-        //         }
-        //     }
-        // }
-        // stage("quality gate"){
-        //    steps {
-        //         script {
-        //             waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
-        //         }
-        //     } 
-        // }
+        SCANNER_HOME = tool 'mysonar'
         stage('TRIVY FS SCAN') {
             steps {
                 sh "trivy fs . > trivyfs.txt"
