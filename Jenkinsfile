@@ -40,9 +40,21 @@ pipeline{
                  sh 'terraform --version'
                 }
         }
-        SCANNER_HOME = tool 'mysonar'
-        stage('TRIVY FS SCAN') {
-            steps {
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
+                    -Dsonar.projectKey=Terraform '''
+                }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                }
+            } 
+        }
                 sh "trivy fs . > trivyfs.txt"
             }
         }
