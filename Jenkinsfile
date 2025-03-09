@@ -77,7 +77,7 @@ pipeline{
                script {
                    // Run Snyk test
                    withCredentials([string(credentialsId: 'snyk', variable: 'SNYK_TOKEN')]) {
-                       sh 'snyk test'
+                       sh 'snyk test .'
                    }
                }
            }
