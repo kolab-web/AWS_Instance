@@ -42,8 +42,10 @@ pipeline{
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
-                    -Dsonar.projectKey=Terraform '''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner 
+                    -Dsonar.projectName=jenkins \
+                    -Dsonar.projectKey=jenkins \
+                    '''
                 }
             }
         }
