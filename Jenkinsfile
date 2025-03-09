@@ -78,7 +78,7 @@ pipeline{
                    // Run Snyk test
                    withCredentials([string(credentialsId: 'snyk', variable: 'SNYK_TOKEN')]) {
                        sh 'echo $(pwd)'
-                       sh 'snyk test .'
+                       sh 'snyk test --all-projects'
                    }
                }
            }
