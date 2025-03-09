@@ -39,6 +39,12 @@ pipeline{
                  sh 'terraform --version'
                 }
         }
+         }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
         // stage("Sonarqube Analysis "){
         //     steps{
         //         withSonarQubeEnv('sonar-server') {
@@ -76,16 +82,16 @@ pipeline{
                }
            }
        }
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
-        stage('Excutable permission to userdata'){
-            steps{
-                sh 'chmod 777 website.sh'
-            }
-        }
+        // stage('TRIVY FS SCAN') {
+        //     steps {
+        //         sh "trivy fs . > trivyfs.txt"
+        //     }
+        // }
+        // stage('Excutable permission to userdata'){
+        //     steps{
+        //         sh 'chmod 777 website.sh'
+        //     }
+        // }
         stage('Terraform init'){
             steps{
                 sh 'terraform init'
