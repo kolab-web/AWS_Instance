@@ -39,7 +39,7 @@ pipeline{
                  sh 'terraform --version'
                 }
         }
-         }
+         
         stage('TRIVY FS SCAN') {
             steps {
                 sh "trivy fs . > trivyfs.txt"
@@ -108,4 +108,4 @@ pipeline{
             }
         }
     }
-// }
+ }
