@@ -47,6 +47,7 @@ pipeline{
         }
         stage("Sonarqube Analysis "){
             steps{
+                dir("${WORKSPACE}"){
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner 
                     -Dsonar.projectName=jenkins \
@@ -58,7 +59,8 @@ pipeline{
                     '''
                 }
             }
-        }
+            }
+        }    
         // stage("quality gate"){
         //    steps {
         //         script {
