@@ -82,9 +82,12 @@ pipeline{
                    withCredentials([string(credentialsId: 'snyk', variable: 'SNYK_TOKEN')]) {
                        sh 'echo $(pwd)'
                        sh 'snyk code test'
+                       catchError (buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh "echo running Snyk Test"
                    }
                }
            }
+       }
        }
         stage('Terraform init'){
             steps{
