@@ -45,36 +45,37 @@ pipeline{
                 sh "trivy fs . > trivyfs.txt"
             }
         }
-        // stage("Sonarqube Analysis "){
-        //     steps{
-        //         dir("${WORKSPACE}"){
-        //         withSonarQubeEnv('sonar-server') {
-        //             sh ''' $SCANNER_HOME/bin/sonar-scanner 
-        //             -Dsonar.projectName=jenkins \
-        //             -Dsonar.projectKey=jenkins \
-        //             -Dsonar.projectBaseDir=/var/lib/jenkins/workspace/aws_instance \
-        //             -Dsonar.sources=. \
-        //             -Dsonar.host.url=http://localhost:9000 \
-        //             -Dsonar.login=sqp_338fa99d800dbb7887756112d868a83c4413da02
-        //             '''
-        //         }
-        //     }
-        //     }
-        // }    
-        // stage("quality gate"){
-        //    steps {
-        //         script {
-        //             waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
-        //         }
-        //     } 
-        // }
-        // }
-        // stage('OWASP Dependency Check') {
-        //     steps {
-        //         dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DP-Check'
-        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //     }
-        // }
+        stage("Sonarqube Analysis "){
+            steps{
+                dir("${WORKSPACE}"){
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner 
+                    -Dsonar.projectName=jenkins \
+                    -Dsonar.projectKey=jenkins \
+                    -Dsonar.projectBaseDir=/var/lib/jenkins/workspace/aws_instance \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=sqp_338fa99d800dbb7887756112d868a83c4413da02\
+                    ||true
+                    '''
+                }
+            }
+            }
+        }    
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                }
+            } 
+        
+        }
+        stage('OWASP Dependency Check') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
         stage('Snyk Test') {
            steps {
                script {
