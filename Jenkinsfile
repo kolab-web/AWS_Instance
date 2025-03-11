@@ -83,7 +83,7 @@ pipeline{
         }
         stage('Terraform apply'){
             steps{
-                sh 'echo testing'
+                sh 'echo testi'
                 sh 'terraform apply --auto approve'
             }
         }
